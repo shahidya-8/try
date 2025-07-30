@@ -1,13 +1,8 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
   <title>Eco Sensitive Areas Map</title>
-
-  <!-- AR.js and A-Frame -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-
   <style>
     html, body, #map {
       width: 100%;
@@ -34,7 +29,7 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       user-select: none;
     }
-    #north-arrow {
+   #north-arrow {
       position: fixed;
       bottom: 10px;
       right: 10px;
@@ -44,6 +39,7 @@
       pointer-events: none;
       user-select: none;
     }
+
     #north-arrow svg {
       width: 100%;
       height: 100%;
@@ -51,91 +47,133 @@
       filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
     }
   </style>
-</head>
-<body>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="./resources/ol.css">
+        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+        <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+        <link rel="stylesheet" href="./resources/qgis2web.css">
+        <style>
+        html, body {
+            background-color: #ffffff;
+        }
+        .ol-control > * {
+            background-color: #f8f8f8!important;
+            color: #444444!important;
+            border-radius: 0px;
+        }
+        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
+            color: #444444!important;
+        }
+        .search-layer-input-search {
+            background-color: #f8f8f8!important;
+        }
+        .ol-control > *:focus, .ol-control >*:hover {
+            background-color: rgba(248, 248, 248, 0.7)!important;
+        } 
+        .ol-control {
+            background-color: rgba(255,255,255,.4) !important;
+            padding: 2px !important;
+        } 
+        </style>
 
-<div id="map-title">ECO SENSITIVE AREAS IN PUTTALAM & MANNAR</div>
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+         
+  <div id="map-title">ECO SENSITIVE AREAS IN PUTTALAM & MANNAR</div>
 
-<div id="north-arrow" aria-label="North Arrow" role="img" title="North Arrow">
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <polygon points="32,4 12,60 32,48 52,60" />
-  </svg>
-</div>
+  <div id="north-arrow" aria-label="North Arrow" role="img" title="North Arrow">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <polygon points="32,4 12,60 32,48 52,60" />
+    </svg>
+  </div>
 
-<!-- Map container -->
-<div id="map"></div>
+  <div id="map">
+  </div>
 
-<!-- AR Button -->
-<button onclick="startAR('mangrove')" style="position:fixed; top:60px; left:20px; z-index:10005; background:#4CAF50; color:white; padding:10px; border:none; border-radius:8px;">🌿 AR: Mangrove</button>
-
-<!-- AR Scene Container -->
-<div id="ar-container" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:10004;">
-  <a-scene embedded arjs>
-    <a-marker preset="hiro">
-      <a-box id="ar-box" position="0 0.5 0" visible="false" material="color: green;"></a-box>
-      <a-text id="ar-label" value="" position="0 1 0" scale="2 2 2" color="white"></a-text>
-    </a-marker>
-    <a-entity camera></a-entity>
-  </a-scene>
-  <button onclick="closeAR()" style="position:fixed; top:10px; right:10px; z-index:10006; background:#e74c3c; color:white; padding:10px; border:none; border-radius:8px;">❌ Close AR</button>
-</div>
-
-<script>
-  function startAR(type) {
-    document.getElementById('ar-container').style.display = 'block';
-    const box = document.getElementById('ar-box');
-    const label = document.getElementById('ar-label');
-    if (type === 'mangrove') {
-      box.setAttribute('material', 'color: green');
-      box.setAttribute('visible', true);
-      label.setAttribute('value', 'Mangrove Zone');
-    }
-  }
-
-  function closeAR() {
-    document.getElementById('ar-container').style.display = 'none';
-  }
-</script>
-
-<!-- Your existing scripts -->
-<script src="resources/qgis2web_expressions.js"></script>
-<script src="./resources/functions.js"></script>
-<script src="./resources/ol.js"></script>
-<script src="./resources/ol-layerswitcher.js"></script>
-<script src="resources/photon-geocoder-autocomplete.min.js"></script>
-<script src="layers/studyarewa_1.js"></script><script src="layers/Wilpattu_2.js"></script><script src="layers/Vankalai_3.js"></script><script src="layers/Thalaimannar_4.js"></script><script src="layers/Barreefsanctuary_5.js"></script><script src="layers/mangrovesstudyarea_6.js"></script><script src="layers/Ecosensitiveareas_7.js"></script><script src="layers/Mangroves_8.js"></script>
-<script src="styles/studyarewa_1_style.js"></script><script src="styles/Wilpattu_2_style.js"></script><script src="styles/Vankalai_3_style.js"></script><script src="styles/Thalaimannar_4_style.js"></script><script src="styles/Barreefsanctuary_5_style.js"></script><script src="styles/mangrovesstudyarea_6_style.js"></script><script src="styles/Ecosensitiveareas_7_style.js"></script><script src="styles/Mangroves_8_style.js"></script>
-<script src="./layers/layers.js" type="text/javascript"></script> 
-<script src="./resources/Autolinker.min.js"></script>
-<script src="./resources/qgis2web.js"></script>
-
-<!-- Feedback Button -->
+        <div id="map">
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
+            </div>
+        </div>
+        <script src="resources/qgis2web_expressions.js"></script>
+        <script src="./resources/functions.js"></script>
+        <script src="./resources/ol.js"></script>
+        <script src="./resources/ol-layerswitcher.js"></script>
+        <script src="resources/photon-geocoder-autocomplete.min.js"></script>
+        <script src="layers/studyarewa_1.js"></script><script src="layers/Wilpattu_2.js"></script><script src="layers/Vankalai_3.js"></script><script src="layers/Thalaimannar_4.js"></script><script src="layers/Barreefsanctuary_5.js"></script><script src="layers/mangrovesstudyarea_6.js"></script><script src="layers/Ecosensitiveareas_7.js"></script><script src="layers/Mangroves_8.js"></script>
+        <script src="styles/studyarewa_1_style.js"></script><script src="styles/Wilpattu_2_style.js"></script><script src="styles/Vankalai_3_style.js"></script><script src="styles/Thalaimannar_4_style.js"></script><script src="styles/Barreefsanctuary_5_style.js"></script><script src="styles/mangrovesstudyarea_6_style.js"></script><script src="styles/Ecosensitiveareas_7_style.js"></script><script src="styles/Mangroves_8_style.js"></script>
+        <script src="./layers/layers.js" type="text/javascript"></script> 
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="./resources/qgis2web.js"></script>
+       
 <div id="feedback-toggle" onclick="toggleForm()" 
      style="position: absolute; bottom: 20px; left: 20px; z-index: 9999; cursor: pointer; background-color: #4CAF50; padding: 10px 15px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.2); color: white; font-size: 20px;">
   💬
 </div>
 
-<div id="feedback-form" style="display: none; position: absolute; bottom: 80px; left: 20px; z-index: 9998; width: 320px; max-height: 400px; overflow-y: auto; background: #f2f2f2; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-family: sans-serif;">
+<div id="feedback-form" style="
+  display: none; 
+  position: absolute; 
+  bottom: 80px; 
+  left: 20px; 
+  z-index: 9998; 
+  width: 320px;
+  max-height: 400px; 
+  overflow-y: auto; 
+  background: #f2f2f2; 
+  padding: 15px; 
+  border-radius: 10px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3); 
+  font-family: sans-serif;
+">
+
   <h3 style="margin-top: 0; color: #2c3e50;">📬 SHAPE THE MAP WITH YOUR VOICES</h3>
+
   <form action="https://formspree.io/f/mqalqggl" method="POST" style="font-size: 14px;">
+
     <label>Your Name</label><br>
     <input type="text" name="name" placeholder="Optional" style="width:100%;"><br><br>
+
     <label>Age Group</label><br>
     <select name="age" style="width:100%;">
-      <option>Under 18</option><option>18–30</option><option>31–50</option><option>51+</option>
+      <option>Under 18</option>
+      <option>18–30</option>
+      <option>31–50</option>
+      <option>51+</option>
     </select><br><br>
+
     <label for="email">Your Email (optional):</label><br>
     <input type="email" name="email" id="email" placeholder="example@mail.com" style="width: 100%; padding: 8px;" /><br><br>
+
     <label>Easy to use?</label><br>
     <input type="radio" name="easy_use" value="Yes"> Yes
     <input type="radio" name="easy_use" value="No"> No<br><br>
+
     <label>Device friendly?</label><br>
     <input type="radio" name="device" value="Yes"> Yes
     <input type="radio" name="device" value="No"> No<br><br>
+
     <label>Rate (1–5)</label><br>
     <select name="rating" style="width:100%;">
-      <option>⭐</option><option>⭐⭐</option><option>⭐⭐⭐</option><option>⭐⭐⭐⭐</option><option>⭐⭐⭐⭐⭐</option>
+      <option>⭐</option><option>⭐⭐</option><option>⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐</option><option>⭐⭐⭐⭐⭐</option>
     </select><br><br>
+
     <label>Favorite place?</label><br>
     <input type="checkbox" name="place" value="Mangroves"> 🌴 Mangroves<br>
     <input type="checkbox" name="place" value="Bird Sanctuary"> 🐦 Bird Sanctuary<br>
@@ -143,24 +181,38 @@
     <input type="checkbox" name="place" value="Wilpattu"> 🐘 Wilpattu<br>
     <input type="checkbox" name="place" value="Galwila"> 🌿 Galwila<br>
     <input type="checkbox" name="place" value="Thalaimannar"> 🌊 Thalaimannar<br><br>
+
+
     <label>Informations clear?</label><br>
     <input type="radio" name="informations_clear" value="Yes"> Yes
     <input type="radio" name="informations_clear" value="No"> No<br><br>
+
     <label>Popup helpful?</label><br>
     <input type="radio" name="popup_help" value="Yes"> Yes
     <input type="radio" name="popup_help" value="No"> No<br><br>
+
     <label>What to add?</label><br>
     <input type="text" name="add_next" placeholder="e.g., stats, AR" style="width:100%;"><br><br>
+
     <label>Suggestions</label><br>
     <textarea name="comments" rows="2" style="width:100%;"></textarea><br><br>
-    <button type="submit" style="padding: 6px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">✅ Submit</button>
+
+    <button type="submit" style="padding: 6px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">
+      ✅ Submit
+    </button>
   </form>
 </div>
+
+
 <script>
   function toggleForm() {
     const form = document.getElementById("feedback-form");
-    form.style.display = form.style.display === "none" ? "block" : "none";
+    if (form.style.display === "none") {
+      form.style.display = "block";
+    } else {
+      form.style.display = "none";
+    }
   }
 </script>
-</body>
+    </body>
 </html>
